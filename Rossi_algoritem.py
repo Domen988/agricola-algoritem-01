@@ -18,11 +18,13 @@ RLokacija = scriptLokacija + '\Novo mesto R   2013-01-01 - 2013-07-31.txt'
 RH, R, T, time = RW.readInput(RHLokacija, TLokacija, RLokacija)
 
 i = 0
-while i < length(time):
+while i < len(time):
 
-    #zaèel bomo kar z MMO in raèunanjem od tu naprej. DOY se upošteva že z seznamom vrednosti.
+    #zacel bomo kar z MMO in racunanjem od tu naprej. DOY se upo?steva ?ze z seznamom vrednosti.
 
     # MMO
+    SVP = []
+    VPD = []
     SVP[i] = 610.7 * 10**( 7.5*T[i] / (237.3 + T[i]) )    # saturated vapour pressure
     VPD[i] = (1 - (RH[i]/100))*SVP[i]                     # vapour pressure deficit
     if R[i] > 0. or VPD[i] <= 4.5:
