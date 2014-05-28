@@ -17,25 +17,37 @@ RLokacija = scriptLokacija + '\Novo mesto R   2013-01-01 - 2013-07-31.txt'
 # inputi za program
 RH, R, T, time = RW.readInput(RHLokacija, TLokacija, RLokacija)
 
-i = 0
-while i < len(time):
+h = 0
+MMO = []          # morphologically mature oospores
+SVP = []          # saturated vapour pressure
+VPD = []          # vapour pressure deficit
+DOR = []          # progress of dormancy breaking
+PMO = []          # physiologically mature oospores
 
-    #zacel bomo kar z MMO in racunanjem od tu naprej. DOY se upo?steva ?ze z seznamom vrednosti.
 
-    # MMO
-    SVP = []
-    VPD = []
-    SVP[i] = 610.7 * 10**( 7.5*T[i] / (237.3 + T[i]) )    # saturated vapour pressure
-    VPD[i] = (1 - (RH[i]/100))*SVP[i]                     # vapour pressure deficit
-    if R[i] > 0. or VPD[i] <= 4.5:
-        M[i] = 1
+while h < len(time):                                      # iteracija po urah
+
+    #zacel bomo kar z MMO=1 in racunanjem od tu naprej. SOD in DOY se uposteva ze s seznamom vrednosti.
+
+    MMO[h] = 1
+
+
+    SVP[h] = 610.7 * 10**( 7.5*T[h] / (237.3 + T[h]) )   
+    VPD[h] = (1 - (RH[h]/100))*SVP[h]                    
+    if R[h] > 0. or VPD[h] <= 4.5:
+        M[h] = 1
     else:
-        M[i] = 0
+        M[h] = 0
 
-    HT[i] = 0.
-    while k <= i:
+    HT[h] = 0.
+    while k <= h:
         if T[k] > 0.:
-            HT[i] = HT[i] + M[k]/(1330.1 - 116.19*T[k] + 2.6256*T[k]**2) 
+            HT[h] = HT[h] + M[k]/(1330.1 - 116.19*T[k] + 2.6256*T[k]**2) 
+
+    DOR[h] =  exp(-15.891 * exp(-0.653*(HT[h] + 1)))                                       
+
+    if HT[h] >= 1.3 and HT[h] <= 8.6:
+        PMO[h] = MMO[h] * DOR[h]
 
 
 
