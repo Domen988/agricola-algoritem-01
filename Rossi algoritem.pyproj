@@ -22,8 +22,10 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="cohort.py" />
     <Compile Include="ReadWrite.py" />
     <Compile Include="Rossi_algoritem.py" />
+    <Compile Include="testing.py" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Novo mesto R   2013-01-01 - 2013-07-31.txt" />
