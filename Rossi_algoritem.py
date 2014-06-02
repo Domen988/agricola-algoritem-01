@@ -48,7 +48,6 @@ ltCohorts = []                                # a list of cohorts
 
 
 
-cohortGER = []
 germinationList = []
 germination = False
 leafLitterMoisture = []
@@ -68,9 +67,11 @@ while h < len(time):                                      # iteracija po urah
     else:
         M[h] = 0
  
-    if T[h] > 0.:
-        HTsum = HTsum + M[h]/(1330.1 - 116.19*T[h] + 2.6256*T[h]**2)
+    if HTsum < 8.6:
+        if T[h] > 0.:
+            HTsum = HTsum + M[h]/(1330.1 - 116.19*T[h] + 2.6256*T[h]**2)
     HT[h] = HTsum
+
   
     DOR[h] =  np.exp(-15.891 * np.exp(-0.653*(HT[h] + 1)))                                       
     
@@ -82,7 +83,6 @@ while h < len(time):                                      # iteracija po urah
             germination = True
             ltCohorts.append(cohort.Cohort(h))
             ltCohorts[-1].GERstart = h
-            cohortGER.append([])
     if W[h] == 0:
         germination = False
                                                                              ## testing
@@ -97,14 +97,13 @@ while h < len(time):                                      # iteracija po urah
             if ltCohorts[i].GER < 1:
                 transfer = ltCohorts[i].GER + M[h]/(1330.1 - 116.19*T[h] + 2.6256*T[h]**2)
                 ltCohorts[i].set_GER(ltCohorts[i].GER + M[h]/(1330.1 - 116.19*T[h] + 2.6256*T[h]**2))
-                cohortGER[i].append(ltCohorts[i].GER)
 
     if len(ltCohorts) and ltCohorts[-1].GER >= 1:                                     
         ltCohorts[-1].fi = h
         ltCohorts[-1].PMO = PMO[h]
 
 
-    """
+    
     cohI = 0
     while cohI < len(ltCohorts):
         ltCohorts[i].SUS = ltCohorts[i].SUS + 1 / (24*(5.67 - 0.47*(T[h]*(1 - RH[h]/100)) + 0.01*(T[h]*(1 - RH[h]/100))**2))
@@ -118,7 +117,7 @@ while h < len(time):                                      # iteracija po urah
             if ltCohorts[i].WD >= np.exp((-1.022 + 19.634)/ltCohorts[i].TWD):
                 ltCohorts[i].REL = 1
                 ltCohorts[i].ro = h
-
+        """
         if ltCohorts[i].SUS <= 1 and ltCohorts[i].REL == 1:
             ltCohorts[i].ZREstage = True
 
@@ -157,9 +156,9 @@ while h < len(time):                                      # iteracija po urah
 
 
 
-
+    """
         cohI += 1
-        """
+        
     print(time[h])
     h += 1
     
@@ -178,11 +177,14 @@ pltT = plt.figure('T - temperature')
 
 pltTest = plt.figure('testni graf')
 plt.plot(time, HT, time, germinationList, 'g', time, M, 'y')
-pltTest = plt.figure('germination, cohortGER')
-for i in range(0, len(cohortGER)):
-    plt.plot(ltCohorts[i].GERhistory, 'o')
-for i in range(0, len(cohortGER)):
-    plt.plot(cohortGER[i], )
+for i in range(0, cohort.Cohort.cohCount):
+    x = []
+    y = []
+    for j in range(len(ltCohorts[i].GERhistory)):
+        x.append(time[ltCohorts[i].GERstart + j])
+        y.append(ltCohorts[i].GERhistory[j]*10)                                               #http://blog.olgabotvinnik.com/post/58941062205/prettyplotlib-painlessly-create-beautiful-matplotlib
+    plt.scatter(x,y, s=1, marker='o')
+
 plt.show()
 print('fin')
 
