@@ -7,7 +7,7 @@ import time
 import datetime
 import ReadWrite as RW
 import cohort
-
+#franci test
 # folder izvajanega skripta
 scriptLokacija = (os.path.dirname(os.path.abspath(__file__)))
 
