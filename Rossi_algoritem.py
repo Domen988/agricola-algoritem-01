@@ -185,7 +185,7 @@ for i in range(0, cohort.Cohort.cohCount):
     for j in range(len(ltCohorts[i].GERhistory)):
         x.append(time[ltCohorts[i].GERstart + j])
         y.append(ltCohorts[i].GERhistory[j]*10)                                               
-    ppl.scatter(x,y, s=1, marker='o', label=str(i))                                             #http://blog.olgabotvinnik.com/post/58941062205/prettyplotlib-painlessly-create-beautiful-matplotlib
+    ppl.scatter(x,y, s=1, marker='o')                                             #http://blog.olgabotvinnik.com/post/58941062205/prettyplotlib-painlessly-create-beautiful-matplotlib
 
 plt.show()
 print('fin')
