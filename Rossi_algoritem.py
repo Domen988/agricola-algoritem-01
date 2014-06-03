@@ -7,6 +7,9 @@ import time
 import datetime
 import ReadWrite as RW
 import cohort
+
+import brewer2mpl                                   # grafi
+import prettyplotlib as ppl                         # grafi
 #franci test
 # folder izvajanega skripta
 scriptLokacija = (os.path.dirname(os.path.abspath(__file__)))
@@ -174,18 +177,15 @@ pltT = plt.figure('T - temperature')
 """
 #plt.plot(time, T)
 
-
 pltTest = plt.figure('testni graf')
-plt.plot(time, HT, time, germinationList, 'g', time, M, 'y')
+ppl.plot(time, HT, time, germinationList, 'g', time, M, 'y')
 for i in range(0, cohort.Cohort.cohCount):
     x = []
     y = []
     for j in range(len(ltCohorts[i].GERhistory)):
         x.append(time[ltCohorts[i].GERstart + j])
-        y.append(ltCohorts[i].GERhistory[j]*10)                                               #http://blog.olgabotvinnik.com/post/58941062205/prettyplotlib-painlessly-create-beautiful-matplotlib
-    plt.scatter(x,y, s=1, marker='o')
+        y.append(ltCohorts[i].GERhistory[j]*10)                                               
+    ppl.scatter(x,y, s=1, marker='o', label=str(i))                                             #http://blog.olgabotvinnik.com/post/58941062205/prettyplotlib-painlessly-create-beautiful-matplotlib
 
 plt.show()
 print('fin')
-
-
